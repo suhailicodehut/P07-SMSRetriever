@@ -76,22 +76,16 @@ public class fragment_word extends Fragment {
                     String[] wordArray = word.split(" ");
                     String filterArg = "";
                     for(int i = 0; i< wordArray.length; i++){
-                        wordArray[i] = "%"+wordArray[i]+"%";
-
-                        if(i != wordArray.length){
-                            filterArg = filterArg + wordArray[i]+ ",";
+                        if(i != 0) {
+                            wordArray[i] = "%"+wordArray[i]+"%";
                             filter += "OR body LIKE ? ";
 //                            tvRetrieve.setText(filter + "\n" + filterArg + "\n" +wordArray.length);
-
-                        }else{
-                            filterArg = filterArg + wordArray[i];
-//                            tvRetrieve.setText(filter + "\n" + filterArg + "\n" + wordArray.length);
 
                         }
                     }
 
                     String[] filterArgs = {filterArg};
-                    Cursor cursor = cr.query(uri, reqCols, filter, filterArgs, null);
+                    Cursor cursor = cr.query(uri, reqCols, filter, wordArray, null);
                     String smsBody = "";
 
 
@@ -112,7 +106,7 @@ public class fragment_word extends Fragment {
                                     + "\n\"" + body + "\"\n\n";
                         } while (cursor.moveToNext());
                     }
-//                    tvRetrieve.setText(smsBody);
+                    tvRetrieve.setText(smsBody);
                 }else{
                     String filter="body LIKE ?";
                     String[] filterArgs = {"%"+word+"%"};
